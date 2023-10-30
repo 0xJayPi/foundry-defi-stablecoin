@@ -37,10 +37,16 @@ contract InvariantsTest is StdInvariant, Test {
         uint256 wethValue = dsce.getUsdValue(weth, totalWethDeposited);
         uint256 wbtcValue = dsce.getUsdValue(wbtc, totalWbtcDeposited);
 
-        // console.log("wethValue: %s", wethValue);
-        // console.log("wbtcValue: %s", wbtcValue);
-        // console.log("totalDscSupply: %s", totalDscSupply);
-
+        console.log("wethValue: %s", wethValue);
+        console.log("wbtcValue: %s", wbtcValue);
+        console.log("totalDscSupply: %s", totalDscSupply);
+        console.log("Times mintDsc is called: %s", handler.timeMintIscalled());
         assert(wethValue + wbtcValue >= totalDscSupply);
+    }
+
+    function invariant_gettersShouldNotRevert() public view {
+        dsce.getLiquidationBonus();
+        dsce.getPrecision();
+        // all getters, we have an issue if one is broken (reverts)
     }
 }
